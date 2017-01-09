@@ -28,7 +28,7 @@ class SettingsExtension extends DataExtension
     public static function field_for(DataObject $owner)
     {
         $settings = Config::inst()->get($owner->ClassName, 'settings');
-        if (self::valid_settings($settings))
+        if ($settings && self::valid_settings($settings))
         {
             return SettingsField::create(
                 $owner->getSettingsDBField(),
