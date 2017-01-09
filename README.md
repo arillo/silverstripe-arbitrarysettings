@@ -29,7 +29,7 @@ MyDataObject:
       options:
         'left': 'Left'
         'right': 'Right'
-      default: 1
+      default: 'left'
       label: 'Image alignment'
 ```
 
@@ -54,7 +54,7 @@ public function getCMSFields()
 Values can be accessed like this:
 
 ```
-$this->SettingByName('image_alignment') // returns 'left' ore 'right'
+$this->SettingByName('image_alignment') // returns 'left' or 'right'
 ```
 
 
