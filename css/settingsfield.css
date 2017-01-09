@@ -1,0 +1,24 @@
+.arbitrarysettingslist {
+  padding-top: 8px;
+  max-width: 512px;
+  padding-bottom: 4px;
+}
+.arbitrarysettingslist li {
+  padding-top: 10px;
+  overflow: hidden;
+}
+.arbitrarysettingslist li:first-child {
+  padding-top: 0;
+}
+.arbitrarysettingslist li label {
+  width: 30%;
+  float: left;
+  margin-right: 5%;
+}
+
+.arbitrarysettingslist input,
+.arbitrarysettingslist select {
+  margin: 0;
+  width: 65%;
+  float: left;
+}
