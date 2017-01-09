@@ -15,7 +15,7 @@
         }
     ],
     "extra": {
-        "installer-name": "silverstripe-arbitrarysettings"
+        "installer-name": "arbitrarysettings"
     },
     "require": {
         "silverstripe/multivaluefield": "^2.3.2"
