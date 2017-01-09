@@ -68,7 +68,7 @@ class SettingsField extends MultiValueTextField
     }
 
     /**
-     * [getSource description]
+     * Combined settings from config and DB value.
      * @return array
      */
     public function getSource()

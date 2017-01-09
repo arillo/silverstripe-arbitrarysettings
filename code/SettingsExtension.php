@@ -115,6 +115,22 @@ class SettingsExtension extends DataExtension
     }
 
     /**
+     * Populate DB in case no settings value is given.
+     */
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        $settings = $this->owner->config()->settings;
+        $dbField = "{$this->_settingsDBField}Value";
+        if ($settings
+            && !$this->owner->$dbField
+            && !$this->owner->{$this->_settingsDBField}->getValue()
+        ) {
+            $this->owner->{$this->_settingsDBField} = $this->_defaultSettings();
+        }
+    }
+
+    /**
      * Returns a setting by a name.
      * With active $returnDefault flag it returns the default value from config, in case there is no value stored in DB.
      * 
@@ -147,5 +163,16 @@ class SettingsExtension extends DataExtension
     public function getSettingsDBField()
     {
         return $this->_settingsDBField;
+    }
+
+    protected function _defaultSettings()
+    {
+        $defaults = [];
+        $settings = self::valid_settings($this->owner->config()->settings);
+        foreach ($settings as $key => $setting)
+        {
+            if (isset($key) && isset($setting['default'])) $defaults[$key] = $setting['default'];
+        }
+        return $defaults;
     }
 }
