@@ -8,7 +8,7 @@ use \InvalidArgumentException;
 
 /**
  * Extends a DataObject with a mutil value field to store arbitrary settings in it.
- * 
+ *
  * @package arbitrarysettings
  * @author bumbus@arillo <sf@arillo.net>
  */
@@ -115,25 +115,9 @@ class SettingsExtension extends DataExtension
     }
 
     /**
-     * Populate DB in case no settings value is given.
-     */
-    public function onBeforeWrite()
-    {
-        parent::onBeforeWrite();
-        $settings = $this->owner->config()->settings;
-        $dbField = "{$this->_settingsDBField}Value";
-        if ($settings
-            && !$this->owner->$dbField
-            && !$this->owner->{$this->_settingsDBField}->getValue()
-        ) {
-            $this->owner->{$this->_settingsDBField} = $this->_defaultSettings();
-        }
-    }
-
-    /**
      * Returns a setting by a name.
      * With active $returnDefault flag it returns the default value from config, in case there is no value stored in DB.
-     * 
+     *
      * @param string  $name
      * @param boolean $returnDefault
      */
