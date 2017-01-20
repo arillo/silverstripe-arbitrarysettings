@@ -101,6 +101,13 @@ class SettingsExtension extends DataExtension
         $this->_settingsDBField = $settingsDBField;
     }
 
+    public function onBeforeWrite()
+    {
+        $dbField = "{$this->_settingsDBField}Value";
+        $this->owner->$dbField = $this->owner->{$this->_settingsDBField};
+        parent::onBeforeWrite();
+    }
+
     /**
      * Add db field for the settings
      * @param  string $class
@@ -147,16 +154,5 @@ class SettingsExtension extends DataExtension
     public function getSettingsDBField()
     {
         return $this->_settingsDBField;
-    }
-
-    protected function _defaultSettings()
-    {
-        $defaults = [];
-        $settings = self::valid_settings($this->owner->config()->settings);
-        foreach ($settings as $key => $setting)
-        {
-            if (isset($key) && isset($setting['default'])) $defaults[$key] = $setting['default'];
-        }
-        return $defaults;
     }
 }
