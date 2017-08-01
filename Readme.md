@@ -60,7 +60,7 @@ $this->SettingByName('image_alignment') // returns 'left' or 'right'
 in templates:
 
 ```html
-$SettingByName('image_alignment')
+<div class="$SettingByName(image_alignment)">...</div>
 ```
 
 ### Translations
