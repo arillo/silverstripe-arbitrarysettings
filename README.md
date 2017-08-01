@@ -8,7 +8,7 @@ Add and setup the extension on your DataObject
 
 e.g. in config.yml:
 
-```
+```yml
 MyDataObject:
   extensions:
      # adds a field called ArbitrarySettings (default)
@@ -37,7 +37,7 @@ MyDataObject:
 
 To add the field in CMS you can use a helper method to show the field:
 
-```
+```php
 use arillo\arbitrarysettings\SettingsExtension;
 
 public function getCMSFields()
@@ -53,16 +53,21 @@ public function getCMSFields()
 
 Values can be accessed like this:
 
-```
+```php
 $this->SettingByName('image_alignment') // returns 'left' or 'right'
 ```
 
+in templates:
+
+```html
+$SettingByName('image_alignment')
+```
 
 ### Translations
 
 To translate the form field label used by `SettingsExtension::field_for` can be changed like this:
 
-```
+```yml
 en:
   arillo\arbitrarysettings\SettingsExtension:
     Label: 'Options'
@@ -70,7 +75,7 @@ en:
 
 To translate options follow the following convention:
 
-```
+```yml
 # for a config like this:
 MyObject:
   settings:

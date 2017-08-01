@@ -1,0 +1,23 @@
+{
+  "Readme.md": {
+    "page": {
+      "layout": "index",
+      "theme": "blue",
+      "title": "SilverStripe Arbitrary Settings",
+      "intro": "Add multiple settings to a DataObject using a single field."
+    }
+  },
+
+  "page": {
+    "silverstripe": true,
+    "metaDescription": "Add multiple settings to a DataObject using a single field.",
+    "metaImage": "http://assets.arillo.net/gh-pages-share-img.png"
+  },
+
+  "menu": false,
+  "projectBase": "/silverstripe-elements-global",
+  "projectUrl": "https://arillo.github.io/silverstripe-arbitrarysettings/",
+  "githubLink": "https://github.com/arillo/silverstripe-arbitrarysettings",
+  "licenseLink": "https://github.com/arillo/silverstripe-arbitrarysettings/blob/master/License.md",
+  "licenseType": "MIT"
+}
