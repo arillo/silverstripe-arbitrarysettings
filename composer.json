@@ -1,7 +1,7 @@
 {
     "name": "arillo/silverstripe-arbitrarysettings",
     "description": "Arbitrary settings for DataObjects",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "homepage": "https://github.com/arillo/silverstripe-arbitrarysettings",
     "keywords": ["silverstripe", "elements"],
     "license": "MIT",
@@ -13,6 +13,11 @@
     ],
     "extra": {
         "installer-name": "arbitrarysettings"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arillo\\ArbitrarySettings\\": "src/"
+        }
     },
     "require": {
         "symbiote/silverstripe-multivaluefield": "^5.0.1"
