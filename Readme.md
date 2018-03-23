@@ -2,6 +2,10 @@
 
 Extends a DataObject with a mutil value field to store arbitrary settings in it.
 
+### Requirements
+
+SilverStripe CMS ^3.0
+
 ### Usage
 
 Add and setup the extension on your DataObject
