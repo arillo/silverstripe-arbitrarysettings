@@ -12,15 +12,17 @@
         }
     ],
     "extra": {
-        "installer-name": "arbitrarysettings"
+        "installer-name": "arbitrarysettings",
+        "expose": ["client"]
+    },
+    "require": {
+        "silverstripe/framework": "~4.0",
+        "symbiote/silverstripe-multivaluefield": "^5.0.1"
     },
     "autoload": {
         "psr-4": {
             "Arillo\\ArbitrarySettings\\": "src/"
         }
-    },
-    "require": {
-        "symbiote/silverstripe-multivaluefield": "^5.0.1"
     },
     "support": {
         "issues":

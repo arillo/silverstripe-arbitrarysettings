@@ -1,8 +1,8 @@
 <?php
 namespace Arillo\ArbitrarySettings;
 
-use \MultiValueTextField;
-use \Requirements;
+use Symbiote\MultiValueField\Fields\MultiValueTextField;
+use SilverStripe\View\Requirements;
 
 /**
  * @package arbitrarysettings
@@ -50,8 +50,10 @@ class SettingsField extends MultiValueTextField
 
     public function Field($properties = [])
     {
-        Requirements::javascript(ARBITRARYSETTINGS_DIR . '/js/settingsfield.js');
-        Requirements::css(ARBITRARYSETTINGS_DIR . '/css/settingsfield.css');
+        // Requirements::javascript(ARBITRARYSETTINGS_DIR . '/js/settingsfield.js');
+        // Requirements::css(ARBITRARYSETTINGS_DIR . '/css/settingsfield.css');
+        Requirements::javascript('arillo/silverstripe-arbitrarysettings: client/javascript/settingsfield.js');
+        Requirements::css('arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css');
         $nameKey = $this->name . '[key][]';
         $nameVal = $this->name . '[val][]';
         $fields = [];
@@ -90,7 +92,7 @@ class SettingsField extends MultiValueTextField
         return $source;
     }
 
-    public function setValue($v)
+    public function setValue($v, $data = NULL)
     {
         if (is_array($v))
         {

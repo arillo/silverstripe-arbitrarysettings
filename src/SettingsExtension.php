@@ -1,10 +1,9 @@
 <?php
 namespace Arillo\ArbitrarySettings;
 
-use \DataExtension;
-use \Config;
-use \DataObject;
-use \InvalidArgumentException;
+use SilverStripe\ORM\DataExtension;
+// use \Config;
+use SilverStripe\ORM\DataObject;
 
 /**
  * Extends a DataObject with a mutil value field to store arbitrary settings in it.
@@ -27,7 +26,8 @@ class SettingsExtension extends DataExtension
      */
     public static function field_for(DataObject $owner)
     {
-        $settings = Config::inst()->get($owner->ClassName, 'settings');
+        $settings = $owner->config()->get('settings');
+        // \SilverStripe\Dev\Debug::dump($settings);
         if ($settings && self::valid_settings($settings))
         {
             return SettingsField::create(
@@ -48,27 +48,27 @@ class SettingsExtension extends DataExtension
     {
         if (is_array($source))
         {
-            foreach ($source as $key => $settings)
-            {
-                if (!isset($settings['options']))
-                {
-                    throw new InvalidArgumentException("Setting [{$key}]: No options defined");
-                }
+            // foreach ($source as $key => $settings)
+            // {
+            //     if (!isset($settings['options']))
+            //     {
+            //         throw new InvalidArgumentException("Setting [{$key}]: No options defined");
+            //     }
 
-                if (!isset($settings['default']))
-                {
-                    throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
-                }
+            //     if (!isset($settings['default']))
+            //     {
+            //         throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
+            //     }
 
-                if (!isset($settings['options'][$settings['default']]))
-                {
-                    throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
-                }
-            }
+            //     if (!isset($settings['options'][$settings['default']]))
+            //     {
+            //         throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
+            //     }
+            // }
 
             return $source;
         }
-        throw new InvalidArgumentException("Settings source should be an array");
+        // throw new InvalidArgumentException("Settings source should be an array");
     }
 
     /**
