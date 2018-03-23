@@ -15,7 +15,7 @@
         "installer-name": "arbitrarysettings"
     },
     "require": {
-        "symbiote/silverstripe-multivaluefield": "^2.4.2"
+        "symbiote/silverstripe-multivaluefield": "^5.0.1"
     },
     "support": {
         "issues":

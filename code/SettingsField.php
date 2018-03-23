@@ -1,5 +1,5 @@
 <?php
-namespace arillo\arbitrarysettings;
+namespace Arillo\ArbitrarySettings;
 
 use \MultiValueTextField;
 use \Requirements;
@@ -36,7 +36,7 @@ class SettingsField extends MultiValueTextField
      *     ..
      *     .
      * ]
-     * 
+     *
      * @param string $name
      * @param string $title
      * @param array  $source

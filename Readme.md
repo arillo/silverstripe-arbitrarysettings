@@ -21,7 +21,7 @@ MyDataObject:
      - arillo\arbitrarysettings\SettingsExtension
 
      # or adds a field called 'MySettings'
-     - arillo\arbitrarysettings\SettingsExtension("MySettings")
+     - Arillo\ArbitrarySettings\SettingsExtension("MySettings")
 
   # define your settings
   settings:
@@ -44,7 +44,7 @@ MyDataObject:
 To add the field in CMS you can use a helper method to show the field:
 
 ```php
-use arillo\arbitrarysettings\SettingsExtension;
+use Arillo\ArbitrarySettings\SettingsExtension;
 
 public function getCMSFields()
 {
@@ -75,7 +75,7 @@ To translate the form field label used by `SettingsExtension::field_for` can be 
 
 ```yml
 en:
-  arillo\arbitrarysettings\SettingsExtension:
+  Arillo\ArbitrarySettings\SettingsExtension:
     Label: 'Options'
 ```
 

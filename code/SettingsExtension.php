@@ -1,5 +1,5 @@
 <?php
-namespace arillo\arbitrarysettings;
+namespace Arillo\ArbitrarySettings;
 
 use \DataExtension;
 use \Config;
@@ -32,7 +32,7 @@ class SettingsExtension extends DataExtension
         {
             return SettingsField::create(
                 $owner->getSettingsDBField(),
-                _t('arillo\arbitrarysettings\SettingsExtension.Label', 'Settings'),
+                _t(__CLASS__ . '.Label', 'Settings'),
                 self::translate_settings($owner, $settings)
             );
         }
