@@ -17,11 +17,8 @@ e.g. in config.yml:
 ```yml
 MyDataObject:
   extensions:
-     # adds a field called ArbitrarySettings (default)
-     - arillo\arbitrarysettings\SettingsExtension
-
-     # or adds a field called 'MySettings'
-     - Arillo\ArbitrarySettings\SettingsExtension("MySettings")
+     # adds a field called ArbitrarySettings
+     - Arillo\ArbitrarySettings\SettingsExtension
 
   # define your settings
   settings:

@@ -43,17 +43,22 @@ class SettingsField extends MultiValueTextField
      * @param mixed  $value
      * @param Form $form
      */
-    public function __construct($name, $title = null, $source = [], $value = null, $form = null) {
+    public function __construct(
+        $name,
+        $title = null,
+        $source = [],
+        $value = null,
+        $form = null
+    ) {
         $this->_source = $source;
         parent::__construct($name, ($title === null) ? $name : $title, $value, $form);
     }
 
     public function Field($properties = [])
     {
-        // Requirements::javascript(ARBITRARYSETTINGS_DIR . '/js/settingsfield.js');
-        // Requirements::css(ARBITRARYSETTINGS_DIR . '/css/settingsfield.css');
-        Requirements::javascript('arillo/silverstripe-arbitrarysettings: client/javascript/settingsfield.js');
+        Requirements::javascript('arillo/silverstripe-arbitrarysettings: client/js/settingsfield.js');
         Requirements::css('arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css');
+
         $nameKey = $this->name . '[key][]';
         $nameVal = $this->name . '[val][]';
         $fields = [];

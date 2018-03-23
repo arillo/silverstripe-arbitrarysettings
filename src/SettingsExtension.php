@@ -1,9 +1,10 @@
 <?php
 namespace Arillo\ArbitrarySettings;
 
+use InvalidArgumentException;
 use SilverStripe\ORM\DataExtension;
-// use \Config;
 use SilverStripe\ORM\DataObject;
+use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
 /**
  * Extends a DataObject with a mutil value field to store arbitrary settings in it.
@@ -13,25 +14,28 @@ use SilverStripe\ORM\DataObject;
  */
 class SettingsExtension extends DataExtension
 {
-    /**
-     * DB field to save the settings
-     * @var string
-     */
-    protected $_settingsDBField = null;
+    const DB_FIELD = 'ArbitrarySettings';
+
+    private static
+        $db = [
+            'ArbitrarySettings' => MultiValueField::class
+        ]
+    ;
 
     /**
-     * Generates a settings field for a given DataObject
+     * Generates a settings field for a given DataObject.
+     *
      * @param  DataObject $owner
      * @return mixed
      */
     public static function field_for(DataObject $owner)
     {
         $settings = $owner->config()->get('settings');
-        // \SilverStripe\Dev\Debug::dump($settings);
+
         if ($settings && self::valid_settings($settings))
         {
             return SettingsField::create(
-                $owner->getSettingsDBField(),
+                self::DB_FIELD,
                 _t(__CLASS__ . '.Label', 'Settings'),
                 self::translate_settings($owner, $settings)
             );
@@ -48,27 +52,27 @@ class SettingsExtension extends DataExtension
     {
         if (is_array($source))
         {
-            // foreach ($source as $key => $settings)
-            // {
-            //     if (!isset($settings['options']))
-            //     {
-            //         throw new InvalidArgumentException("Setting [{$key}]: No options defined");
-            //     }
+            foreach ($source as $key => $settings)
+            {
+                if (!isset($settings['options']))
+                {
+                    throw new InvalidArgumentException("Setting [{$key}]: No options defined");
+                }
 
-            //     if (!isset($settings['default']))
-            //     {
-            //         throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
-            //     }
+                if (!isset($settings['default']))
+                {
+                    throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
+                }
 
-            //     if (!isset($settings['options'][$settings['default']]))
-            //     {
-            //         throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
-            //     }
-            // }
+                if (!isset($settings['options'][$settings['default']]))
+                {
+                    throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
+                }
+            }
 
             return $source;
         }
-        // throw new InvalidArgumentException("Settings source should be an array");
+        throw new InvalidArgumentException("Settings source should be an array");
     }
 
     /**
@@ -93,35 +97,6 @@ class SettingsExtension extends DataExtension
     }
 
     /**
-     * @param string $settingsDBField   the name of db field to save in
-     */
-    public function __construct($settingsDBField = 'ArbitrarySettings')
-    {
-        parent::__construct();
-        $this->_settingsDBField = $settingsDBField;
-    }
-
-    public function onBeforeWrite()
-    {
-        $dbField = "{$this->_settingsDBField}Value";
-        $this->owner->$dbField = $this->owner->{$this->_settingsDBField};
-        parent::onBeforeWrite();
-    }
-
-    /**
-     * Add db field for the settings
-     * @param  string $class
-     * @param  string $extension
-     * @return array
-     */
-    public function extraStatics($class = null, $extension = null)
-    {
-        return [
-            'db' => [ $this->_settingsDBField => 'MultiValueField' ]
-        ];
-    }
-
-    /**
      * Returns a setting by a name.
      * With active $returnDefault flag it returns the default value from config, in case there is no value stored in DB.
      *
@@ -130,7 +105,7 @@ class SettingsExtension extends DataExtension
      */
     public function SettingByName($name = null, $returnDefault = true)
     {
-        $settings = $this->owner->{$this->_settingsDBField}->getValue();
+        $settings = $this->owner->{self::DB_FIELD}->getValue();
 
         if ($settings
             && is_array($settings)
@@ -149,10 +124,5 @@ class SettingsExtension extends DataExtension
             }
         }
         return false;
-    }
-
-    public function getSettingsDBField()
-    {
-        return $this->_settingsDBField;
     }
 }
