@@ -16,7 +16,7 @@
         "expose": ["client"]
     },
     "require": {
-        "silverstripe/framework": "~4.0",
+        "silverstripe/framework": "^4",
         "symbiote/silverstripe-multivaluefield": "^5.0.1"
     },
     "autoload": {
