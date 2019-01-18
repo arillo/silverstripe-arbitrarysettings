@@ -83,16 +83,18 @@ class SettingsExtension extends DataExtension
      */
     public static function translate_settings(DataObject $owner, array $source)
     {
-        foreach ($source as $key => $settings) {
+        foreach ($source as $key => $settings)
+        {
             if (isset($settings['options']))
             {
                 foreach ($settings['options'] as $option => $label)
                 {
-                    $source[$key]['options'][$option] = _t("{$owner->class}.setting_{$key}_option_{$option}", $label);
+                    $source[$key]['options'][$option] = _t(get_class($owner) . ".setting_{$key}_option_{$option}", $label);
                 }
             }
-            $source[$key]['label'] = _t("{$owner->class}.setting_{$key}_label", $source[$key]['label']);
+            $source[$key]['label'] = _t(get_class($owner) . ".setting_{$key}_label", $source[$key]['label']);
         }
+
         return $source;
     }
 
