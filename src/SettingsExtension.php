@@ -148,9 +148,11 @@ class SettingsExtension extends DataExtension
 
         if (filter_var($returnDefault, FILTER_VALIDATE_BOOLEAN))
         {
-            $config = self::normalize_settings(
-                $this->owner->config()->get('settings')
-            );
+            $settings = $this->owner->config()->get('settings');
+
+            if (empty($settings)) return false;
+
+            $config = self::normalize_settings($settings);
 
             if (isset($config[$name]) && isset($config[$name]['default']))
             {
