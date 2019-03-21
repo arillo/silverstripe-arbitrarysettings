@@ -14,7 +14,7 @@ class SettingsField extends MultiValueTextField
      * Option source
      * @var array
      */
-    protected $_source;
+    protected $source;
 
     /**
      * Constructs the field as usual.
@@ -50,7 +50,7 @@ class SettingsField extends MultiValueTextField
         $value = null,
         $form = null
     ) {
-        $this->_source = $source;
+        $this->source = $source;
         parent::__construct($name, ($title === null) ? $name : $title, $value, $form);
     }
 
@@ -75,13 +75,52 @@ class SettingsField extends MultiValueTextField
     }
 
     /**
+     * Exclude options by keys.
+     *
+     * @param  array  $excludes
+     * @return SettingsField
+     */
+    public function exclude(array $excludes = [])
+    {
+        $source = $this->source;
+        foreach ($excludes as $exclude)
+        {
+            unset($source[$exclude]);
+        }
+
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * Include options by keys.
+     *
+     * @param  array  $excludes
+     * @return SettingsField
+     */
+    public function include(array $includes = [])
+    {
+        $source = [];
+        foreach ($includes as $include)
+        {
+            if (isset($this->source[$include]))
+            {
+                $source[$include] = $this->source[$include];
+            }
+        }
+
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
      * Combined settings from config and DB value.
      * @return array
      */
     public function getSource()
     {
         $source = [];
-        foreach ($this->_source as $key => $data)
+        foreach ($this->source as $key => $data)
         {
             $data['currentValue'] = $data['default'];
             if ($this->value)

@@ -4,6 +4,7 @@ namespace Arillo\ArbitrarySettings;
 use InvalidArgumentException;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Core\Config\Config;
 use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
 /**
@@ -30,9 +31,10 @@ class SettingsExtension extends DataExtension
      */
     public static function field_for(DataObject $owner)
     {
-        $settings = $owner->config()->get('settings');
+        $settings = $owner->config()->get('settings') ?? [];
+        $settings = self::normalize_settings($settings);
 
-        if ($settings && self::valid_settings($settings))
+        if (self::valid_settings($settings))
         {
             return SettingsField::create(
                 self::DB_FIELD,
@@ -41,6 +43,31 @@ class SettingsExtension extends DataExtension
             );
         }
         return false;
+    }
+
+    /**
+     * If settings is a sequential array, it checks in list of presets for the key
+     * and appends its options to the settings.
+     *
+     * @param  array  $settings
+     * @return array
+     */
+    public static function normalize_settings(array $settings)
+    {
+        if (array_keys($settings) !== range(0, count($settings) - 1)) return $settings;
+
+        $newSettings = [];
+        if ($presets = Config::inst()->get(__CLASS__, 'presets'))
+        {
+            foreach ($settings as $key)
+            {
+                if (isset($presets[$key])) $newSettings[$key] = $presets[$key];
+            }
+
+            return $newSettings;
+        }
+
+        return $settings;
     }
 
     /**
@@ -105,8 +132,10 @@ class SettingsExtension extends DataExtension
      * @param string  $name
      * @param boolean $returnDefault
      */
-    public function SettingByName($name = null, $returnDefault = true)
-    {
+    public function SettingByName(
+        $name = null,
+        $returnDefault = true
+    ) {
         $settings = $this->owner->{self::DB_FIELD}->getValue();
 
         if ($settings
@@ -119,7 +148,10 @@ class SettingsExtension extends DataExtension
 
         if (filter_var($returnDefault, FILTER_VALIDATE_BOOLEAN))
         {
-            $config = $this->owner->config()->get('settings');
+            $config = self::normalize_settings(
+                $this->owner->config()->get('settings')
+            );
+
             if (isset($config[$name]) && isset($config[$name]['default']))
             {
                 return $config[$name]['default'];
