@@ -52,7 +52,7 @@ class SettingsExtension extends DataExtension
      * @param  array  $settings
      * @return array
      */
-    public static function normalize_settings(array $settings)
+    public static function normalize_settings(array $settings = [])
     {
         if (array_keys($settings) !== range(0, count($settings) - 1)) return $settings;
 
