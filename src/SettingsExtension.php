@@ -2,9 +2,9 @@
 namespace Arillo\ArbitrarySettings;
 
 use InvalidArgumentException;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Core\Config\Config;
 use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
 /**
@@ -17,10 +17,9 @@ class SettingsExtension extends DataExtension
 {
     const DB_FIELD = 'ArbitrarySettings';
 
-    private static
-        $db = [
-            'ArbitrarySettings' => MultiValueField::class
-        ]
+    private static $db = [
+        'ArbitrarySettings' => MultiValueField::class,
+    ]
     ;
 
     /**
@@ -34,8 +33,7 @@ class SettingsExtension extends DataExtension
         $settings = $owner->config()->get('settings') ?? [];
         $settings = self::normalize_settings($settings);
 
-        if (self::valid_settings($settings))
-        {
+        if (self::valid_settings($settings)) {
             return SettingsField::create(
                 self::DB_FIELD,
                 _t(__CLASS__ . '.Label', 'Settings'),
@@ -54,14 +52,17 @@ class SettingsExtension extends DataExtension
      */
     public static function normalize_settings(array $settings)
     {
-        if (array_keys($settings) !== range(0, count($settings) - 1)) return $settings;
+        if (array_keys($settings) !== range(0, count($settings) - 1)) {
+            return $settings;
+        }
 
         $newSettings = [];
-        if ($presets = Config::inst()->get(__CLASS__, 'presets'))
-        {
-            foreach ($settings as $key)
-            {
-                if (isset($presets[$key])) $newSettings[$key] = $presets[$key];
+        if ($presets = Config::inst()->get(__CLASS__, 'presets')) {
+            foreach ($settings as $key) {
+                if (isset($presets[$key])) {
+                    $newSettings[$key] = $presets[$key];
+                }
+
             }
 
             return $newSettings;
@@ -77,22 +78,17 @@ class SettingsExtension extends DataExtension
      */
     public static function valid_settings(array $source)
     {
-        if (is_array($source))
-        {
-            foreach ($source as $key => $settings)
-            {
-                if (!isset($settings['options']))
-                {
+        if (is_array($source)) {
+            foreach ($source as $key => $settings) {
+                if (!isset($settings['options'])) {
                     throw new InvalidArgumentException("Setting [{$key}]: No options defined");
                 }
 
-                if (!isset($settings['default']))
-                {
+                if (!isset($settings['default'])) {
                     throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
                 }
 
-                if (!isset($settings['options'][$settings['default']]))
-                {
+                if (!isset($settings['options'][$settings['default']])) {
                     throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
                 }
             }
@@ -110,12 +106,9 @@ class SettingsExtension extends DataExtension
      */
     public static function translate_settings(DataObject $owner, array $source)
     {
-        foreach ($source as $key => $settings)
-        {
-            if (isset($settings['options']))
-            {
-                foreach ($settings['options'] as $option => $label)
-                {
+        foreach ($source as $key => $settings) {
+            if (isset($settings['options'])) {
+                foreach ($settings['options'] as $option => $label) {
                     $source[$key]['options'][$option] = _t(get_class($owner) . ".setting_{$key}_option_{$option}", $label);
                 }
             }
@@ -136,7 +129,9 @@ class SettingsExtension extends DataExtension
         $name = null,
         $returnDefault = true
     ) {
-        $settings = $this->owner->{self::DB_FIELD}->getValue();
+        $settings = is_array($this->owner->{self::DB_FIELD})
+        ? $this->owner->{self::DB_FIELD}
+        : $this->owner->{self::DB_FIELD}->getValue();
 
         if ($settings
             && is_array($settings)
@@ -146,14 +141,12 @@ class SettingsExtension extends DataExtension
             return $settings[$name];
         }
 
-        if (filter_var($returnDefault, FILTER_VALIDATE_BOOLEAN))
-        {
+        if (filter_var($returnDefault, FILTER_VALIDATE_BOOLEAN)) {
             $config = self::normalize_settings(
                 $this->owner->config()->get('settings')
             );
 
-            if (isset($config[$name]) && isset($config[$name]['default']))
-            {
+            if (isset($config[$name]) && isset($config[$name]['default'])) {
                 return $config[$name]['default'];
             }
         }
