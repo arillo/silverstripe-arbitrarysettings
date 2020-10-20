@@ -50,8 +50,12 @@ class SettingsExtension extends DataExtension
      * @param  array  $settings
      * @return array
      */
-    public static function normalize_settings(array $settings)
+    public static function normalize_settings($settings)
     {
+        if (!is_array($settings)) {
+            return null;
+        }
+
         if (array_keys($settings) !== range(0, count($settings) - 1)) {
             return $settings;
         }
@@ -146,7 +150,7 @@ class SettingsExtension extends DataExtension
                 $this->owner->config()->get('settings')
             );
 
-            if (isset($config[$name]) && isset($config[$name]['default'])) {
+            if ($config && isset($config[$name]) && isset($config[$name]['default'])) {
                 return $config[$name]['default'];
             }
         }
