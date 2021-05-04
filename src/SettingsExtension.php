@@ -19,8 +19,21 @@ class SettingsExtension extends DataExtension
 
     private static $db = [
         'ArbitrarySettings' => MultiValueField::class,
-    ]
-    ;
+    ];
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if ($this->owner->ArbitrarySettingsValue) {
+            $settings = json_decode($this->owner->ArbitrarySettingsValue, true);
+
+            if (SettingsField::is_unformatted_value($settings)) {
+                $this->owner->ArbitrarySettingsValue = json_encode(
+                    SettingsField::format_value($settings)
+                );
+            }
+        }
+    }
 
     /**
      * Generates a settings field for a given DataObject.
@@ -66,7 +79,6 @@ class SettingsExtension extends DataExtension
                 if (isset($presets[$key])) {
                     $newSettings[$key] = $presets[$key];
                 }
-
             }
 
             return $newSettings;
@@ -85,21 +97,29 @@ class SettingsExtension extends DataExtension
         if (is_array($source)) {
             foreach ($source as $key => $settings) {
                 if (!isset($settings['options'])) {
-                    throw new InvalidArgumentException("Setting [{$key}]: No options defined");
+                    throw new InvalidArgumentException(
+                        "Setting [{$key}]: No options defined"
+                    );
                 }
 
                 if (!isset($settings['default'])) {
-                    throw new InvalidArgumentException("Setting [{$key}]: No default value defined");
+                    throw new InvalidArgumentException(
+                        "Setting [{$key}]: No default value defined"
+                    );
                 }
 
                 if (!isset($settings['options'][$settings['default']])) {
-                    throw new InvalidArgumentException("Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options");
+                    throw new InvalidArgumentException(
+                        "Setting [{$key}]: Default value '{$settings['default']}' cannot be found in the options"
+                    );
                 }
             }
 
             return $source;
         }
-        throw new InvalidArgumentException("Settings source should be an array");
+        throw new InvalidArgumentException(
+            'Settings source should be an array'
+        );
     }
 
     /**
@@ -113,10 +133,16 @@ class SettingsExtension extends DataExtension
         foreach ($source as $key => $settings) {
             if (isset($settings['options'])) {
                 foreach ($settings['options'] as $option => $label) {
-                    $source[$key]['options'][$option] = _t(get_class($owner) . ".setting_{$key}_option_{$option}", $label);
+                    $source[$key]['options'][$option] = _t(
+                        get_class($owner) . ".setting_{$key}_option_{$option}",
+                        $label
+                    );
                 }
             }
-            $source[$key]['label'] = _t(get_class($owner) . ".setting_{$key}_label", $source[$key]['label']);
+            $source[$key]['label'] = _t(
+                get_class($owner) . ".setting_{$key}_label",
+                $source[$key]['label']
+            );
         }
 
         return $source;
@@ -129,18 +155,17 @@ class SettingsExtension extends DataExtension
      * @param string  $name
      * @param boolean $returnDefault
      */
-    public function SettingByName(
-        $name = null,
-        $returnDefault = true
-    ) {
+    public function SettingByName($name = null, $returnDefault = true)
+    {
         $settings = is_array($this->owner->{self::DB_FIELD})
-        ? $this->owner->{self::DB_FIELD}
-        : $this->owner->{self::DB_FIELD}->getValue();
+            ? $this->owner->{self::DB_FIELD}
+            : $this->owner->{self::DB_FIELD}->getValue();
 
-        if ($settings
-            && is_array($settings)
-            && is_string($name)
-            && isset($settings[$name])
+        if (
+            $settings &&
+            is_array($settings) &&
+            is_string($name) &&
+            isset($settings[$name])
         ) {
             return $settings[$name];
         }
@@ -150,7 +175,11 @@ class SettingsExtension extends DataExtension
                 $this->owner->config()->get('settings')
             );
 
-            if ($config && isset($config[$name]) && isset($config[$name]['default'])) {
+            if (
+                $config &&
+                isset($config[$name]) &&
+                isset($config[$name]['default'])
+            ) {
                 return $config[$name]['default'];
             }
         }

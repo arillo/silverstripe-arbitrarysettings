@@ -16,6 +16,22 @@ class SettingsField extends MultiValueTextField
      */
     protected $source;
 
+    public static function is_unformatted_value($value)
+    {
+        return is_array($value) && isset($value['key']);
+    }
+
+    public static function format_value($value)
+    {
+        $newVal = [];
+        for ($i = 0, $c = count($value['key']); $i < $c; $i++) {
+            if (strlen($value['key'][$i]) && strlen($value['val'][$i])) {
+                $newVal[$value['key'][$i]] = $value['val'][$i];
+            }
+        }
+        return $newVal;
+    }
+
     /**
      * Constructs the field as usual.
      *
@@ -51,26 +67,46 @@ class SettingsField extends MultiValueTextField
         $form = null
     ) {
         $this->source = $source;
-        parent::__construct($name, ($title === null) ? $name : $title, $value, $form);
+        parent::__construct(
+            $name,
+            $title === null ? $name : $title,
+            $value,
+            $form
+        );
     }
 
     public function Field($properties = [])
     {
-        Requirements::javascript('arillo/silverstripe-arbitrarysettings: client/js/settingsfield.js');
-        Requirements::css('arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css');
+        Requirements::javascript(
+            'arillo/silverstripe-arbitrarysettings: client/js/settingsfield.js'
+        );
+        Requirements::css(
+            'arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css'
+        );
 
         $nameKey = $this->name . '[key][]';
         $nameVal = $this->name . '[val][]';
         $fields = [];
 
-        $source = htmlspecialchars(json_encode([
-            'formId' => $this->id(),
-            'keyName' => $this->name . '[key][]',
-            'valueName' => $this->name . '[val][]',
-            'options' => $this->getSource()
-        ]), ENT_QUOTES, 'UTF-8');
+        $source = htmlspecialchars(
+            json_encode([
+                'formId' => $this->id(),
+                'keyName' => $this->name . '[key][]',
+                'valueName' => $this->name . '[val][]',
+                'options' => $this->getSource(),
+            ]),
+            ENT_QUOTES,
+            'UTF-8'
+        );
 
-        $html = '<ul id="'. $this->id() .'" class="multivaluefieldlist arbitrarysettingslist '. $this->extraClass().'" data-source="' . $source . '"></ul>';
+        $html =
+            '<ul id="' .
+            $this->id() .
+            '" class="multivaluefieldlist arbitrarysettingslist ' .
+            $this->extraClass() .
+            '" data-source="' .
+            $source .
+            '"></ul>';
         return $html;
     }
 
@@ -83,8 +119,7 @@ class SettingsField extends MultiValueTextField
     public function exclude(array $excludes = [])
     {
         $source = $this->source;
-        foreach ($excludes as $exclude)
-        {
+        foreach ($excludes as $exclude) {
             unset($source[$exclude]);
         }
 
@@ -101,10 +136,8 @@ class SettingsField extends MultiValueTextField
     public function include(array $includes = [])
     {
         $source = [];
-        foreach ($includes as $include)
-        {
-            if (isset($this->source[$include]))
-            {
+        foreach ($includes as $include) {
+            if (isset($this->source[$include])) {
                 $source[$include] = $this->source[$include];
             }
         }
@@ -120,14 +153,11 @@ class SettingsField extends MultiValueTextField
     public function getSource()
     {
         $source = [];
-        foreach ($this->source as $key => $data)
-        {
+        foreach ($this->source as $key => $data) {
             $data['currentValue'] = $data['default'];
-            if ($this->value)
-            {
+            if ($this->value) {
                 $source[$key] = $data;
-                if (isset($this->value[$key]))
-                {
+                if (isset($this->value[$key])) {
                     $data['currentValue'] = $this->value[$key];
                 }
             }
@@ -136,25 +166,12 @@ class SettingsField extends MultiValueTextField
         return $source;
     }
 
-    public function setValue($v, $data = NULL)
+    public function setValue($v, $data = null)
     {
-        if (is_array($v))
-        {
-            if (isset($v['key']))
-            {
-                $newVal = [];
-                for ($i = 0, $c = count($v['key']); $i < $c; $i++)
-                {
-                    if (strlen($v['key'][$i]) && strlen($v['val'][$i]))
-                    {
-                        $newVal[$v['key'][$i]] = $v['val'][$i];
-                    }
-                }
-                $v = $newVal;
-            }
+        if (self::is_unformatted_value($v)) {
+            $v = self::format_value($v);
         }
-        if ($v instanceof MultiValueField)
-        {
+        if ($v instanceof MultiValueField) {
             $v = $v->getValues();
         }
 
