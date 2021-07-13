@@ -162,8 +162,6 @@ class SettingsField extends MultiValueTextField
             isset($source[$key]['options'][$newDefault])
         ) {
             $source[$key]['default'] = $newDefault;
-            $source[$key]['label'] = $source[$key]['options'][$newDefault];
-
             $this->source = $source;
         }
 
