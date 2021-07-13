@@ -147,6 +147,30 @@ class SettingsField extends MultiValueTextField
     }
 
     /**
+     * Update the default for a given key
+     *
+     * @param string $key
+     * @param string $newDefault
+     * @return SettingsField
+     */
+    public function updateDefaultForKey(string $key, string $newDefault)
+    {
+        $source = $this->source;
+
+        if (
+            isset($source[$key]) &&
+            isset($source[$key]['options'][$newDefault])
+        ) {
+            $source[$key]['default'] = $newDefault;
+            $source[$key]['label'] = $source[$key]['options'][$newDefault];
+
+            $this->source = $source;
+        }
+
+        return $this;
+    }
+
+    /**
      * Combined settings from config and DB value.
      * @return array
      */

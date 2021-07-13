@@ -66,6 +66,25 @@ in templates:
 <div class="$SettingByName(image_alignment)">...</div>
 ```
 
+`SettingsField` has functions available to manipulate the source of the field:
+
+For including or excluding certain setting you can use:
+
+```php
+// will show all settings but show_title
+$settingsField->exclude(['show_title]);
+
+// will show show_title setting only
+$settingsField->include(['show_title]);
+```
+
+It is also possible to update the default value for a setting (for sure only if its present as an option):
+
+```php
+$settingsField->updateDefaultForKey('show_title', 1);
+```
+
+
 ### Settings presets
 
 It is possible to define a list of setting presets like this:
