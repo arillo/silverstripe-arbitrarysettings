@@ -72,10 +72,10 @@ For including or excluding certain setting you can use:
 
 ```php
 // will show all settings but show_title
-$settingsField->exclude(['show_title]);
+$settingsField->exclude(['show_title']);
 
 // will show show_title setting only
-$settingsField->include(['show_title]);
+$settingsField->include(['show_title']);
 ```
 
 It is also possible to update the default value for a setting (for sure only if its present as an option):
