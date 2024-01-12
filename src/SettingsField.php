@@ -1,8 +1,11 @@
 <?php
 namespace Arillo\ArbitrarySettings;
 
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
 use Symbiote\MultiValueField\Fields\MultiValueTextField;
 use SilverStripe\View\Requirements;
+use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
 /**
  * @package arbitrarysettings
@@ -77,37 +80,16 @@ class SettingsField extends MultiValueTextField
 
     public function Field($properties = [])
     {
-        Requirements::javascript(
-            'arillo/silverstripe-arbitrarysettings: client/js/settingsfield.js'
-        );
         Requirements::css(
             'arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css'
         );
 
-        $nameKey = $this->name . '[key][]';
-        $nameVal = $this->name . '[val][]';
-        $fields = [];
-
-        $source = htmlspecialchars(
-            json_encode([
-                'formId' => $this->id(),
-                'keyName' => $this->name . '[key][]',
-                'valueName' => $this->name . '[val][]',
-                'options' => $this->getSource(),
-            ]),
-            ENT_QUOTES,
-            'UTF-8'
-        );
-
-        $html =
-            '<ul id="' .
-            $this->id() .
-            '" class="multivaluefieldlist arbitrarysettingslist ' .
-            $this->extraClass() .
-            '" data-source="' .
-            $source .
-            '"></ul>';
-        return $html;
+        return $this->renderWith('SettingsField', [
+            'FormId' => $this->id(),
+            'KeyName' => $this->name . '[key][]',
+            'ValueName' => $this->name . '[val][]',
+            'Settings' => $this->getSettings(),
+        ]);
     }
 
     /**
@@ -168,23 +150,39 @@ class SettingsField extends MultiValueTextField
         return $this;
     }
 
-    /**
-     * Combined settings from config and DB value.
-     * @return array
-     */
-    public function getSource()
+    public function getSettings()
     {
-        $source = [];
+        $source = ArrayList::create([]);
         foreach ($this->source as $key => $data) {
-            $data['currentValue'] = $data['default'];
-            if ($this->value) {
-                $source[$key] = $data;
-                if (isset($this->value[$key])) {
-                    $data['currentValue'] = $this->value[$key];
+            $opts = ArrayList::create([]);
+            foreach ($data['options'] as $val => $label) {
+                $selected = $data['default'] === $val;
+
+                if ($this->value) {
+                    if (isset($this->value[$key])) {
+                        $selected = $this->value[$key] === $val;
+                    }
                 }
+
+                $opts->push(
+                    ArrayData::create([
+                        'Val' => $val,
+                        'Label' => $label,
+                        'Selected' => $selected,
+                    ])
+                );
             }
-            $source[$key] = $data;
+
+            $source->push(
+                ArrayData::create([
+                    'Key' => $key,
+                    'Label' => $data['label'],
+                    'Description' => $data['description'] ?? null,
+                    'Options' => $opts,
+                ])
+            );
         }
+
         return $source;
     }
 
