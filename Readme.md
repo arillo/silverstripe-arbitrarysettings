@@ -24,16 +24,17 @@ MyDataObject:
   settings:
     show_title:
       options:
-        0: "No"
-        1: "Yes"
+        0: 'No'
+        1: 'Yes'
       default: 0
-      label: "Show title as image caption?"
+      label: 'Show title as image caption?'
+      description: 'Additional description goes here'
     image_alignment:
       options:
-        "left": "Left"
-        "right": "Right"
-      default: "left"
-      label: "Image alignment"
+        'left': 'Left'
+        'right': 'Right'
+      default: 'left'
+      label: 'Image alignment'
 ```
 
 **Note:** All keys should be alphanumeric (including underscores, haven't tested other special characters yet) and should not contain whitespace.
@@ -84,7 +85,6 @@ It is also possible to update the default value for a setting (for sure only if 
 $settingsField->updateDefaultForKey('show_title', 1);
 ```
 
-
 ### Settings presets
 
 It is possible to define a list of setting presets like this:
@@ -94,16 +94,16 @@ Arillo\ArbitrarySettings\SettingsExtension:
   presets:
     bg:
       options:
-        transparent: "Transparent"
-        light: "Light blue"
+        transparent: 'Transparent'
+        light: 'Light blue'
       default: transparent
-      label: "Background color"
+      label: 'Background color'
     imgType:
       options:
-        Default: "Default image"
-        Hero: "Hero image"
+        Default: 'Default image'
+        Hero: 'Hero image'
       default: Default
-      label: "Image type"
+      label: 'Image type'
 ```
 
 With these presets defined it is possible to reference these keys in your DataObject's settings config, e.g.:
@@ -126,7 +126,7 @@ To translate the form field label used by `SettingsExtension::field_for` can be 
 ```yml
 en:
   Arillo\ArbitrarySettings\SettingsExtension:
-    Label: "Options"
+    Label: 'Options'
 ```
 
 To translate options follow the following convention:
@@ -137,14 +137,14 @@ MyObject:
   settings:
     show_title:
       options:
-        0: "No"
-        1: "Yes"
+        0: 'No'
+        1: 'Yes'
       default: 0
-      label: "Show title as image caption?"
+      label: 'Show title as image caption?'
 # the following translation keys can be used:
 en:
   MyObject:
-    setting_show_title_option_0: "Nope"
-    setting_show_title_option_1: "Yep"
-    setting_show_title_label: "Use title as image caption"
+    setting_show_title_option_0: 'Nope'
+    setting_show_title_option_1: 'Yep'
+    setting_show_title_label: 'Use title as image caption'
 ```

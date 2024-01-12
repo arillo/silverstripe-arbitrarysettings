@@ -1,24 +1,42 @@
-.arbitrarysettingslist {
-  padding-top: 8px;
+.arbitrarysettings-list {
   padding-left: 0;
-}
-.arbitrarysettingslist li {
-  padding-top: 10px;
-  overflow: hidden;
-}
-.arbitrarysettingslist li:first-child {
-  padding-top: 0;
-}
-.arbitrarysettingslist li label {
-  width: 30%;
-  float: left;
-  margin-right: 5%;
-  padding-top: 9px;
+  list-style: none;
+  container-type: inline-size;
 }
 
-.arbitrarysettingslist input,
-.arbitrarysettingslist select {
-  margin: 0;
-  width: 65%;
-  float: left;
+.arbitrarysettings-list li:not(:first-child) {
+  padding-top: 10px;
 }
+
+.arbitrarysettings-option {
+  overflow: hidden;
+}
+
+.arbitrarysettings-list select {
+  margin: 0;
+}
+
+.arbitrarysettings-description {
+  color: #566b8d;
+  margin-top: 0.5385rem;
+  margin-bottom: 0.5385rem;
+  font-size: .923rem;
+}
+
+@container (min-width: 450px) {
+  .arbitrarysettings-option label {
+    padding-top: 9px;
+    width: 30%;
+    float: left;
+    margin-right: 5%;
+  }
+  .arbitrarysettings-list select {
+    width: 65%;
+    float: left;
+  }
+  .arbitrarysettings-description {
+    margin-left: 35%;
+  }
+}
+
+
