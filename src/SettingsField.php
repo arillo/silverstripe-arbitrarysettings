@@ -156,11 +156,11 @@ class SettingsField extends MultiValueTextField
         foreach ($this->source as $key => $data) {
             $opts = ArrayList::create([]);
             foreach ($data['options'] as $val => $label) {
-                $selected = $data['default'] === $val;
+                $selected = $data['default'] == $val;
 
                 if ($this->value) {
                     if (isset($this->value[$key])) {
-                        $selected = $this->value[$key] === $val;
+                        $selected = $this->value[$key] == $val;
                     }
                 }
 
