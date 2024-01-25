@@ -143,10 +143,12 @@ class SettingsExtension extends DataExtension
                 get_class($owner) . ".setting_{$key}_label",
                 $source[$key]['label']
             );
-            $source[$key]['description'] = _t(
-                get_class($owner) . ".setting_{$key}_description",
-                $source[$key]['description']
-            );
+            if (isset($source[$key]['description'])) {
+                $source[$key]['description'] = _t(
+                    get_class($owner) . ".setting_{$key}_description",
+                    $source[$key]['description']
+                );
+            }
         }
 
         return $source;
