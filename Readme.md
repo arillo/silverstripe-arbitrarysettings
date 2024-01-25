@@ -4,9 +4,10 @@ Extends a DataObject with a mutil value field to store arbitrary settings in it.
 
 ### Requirements
 
-SilverStripe CMS ^4.0
+SilverStripe CMS ^5.0
 
-For a SilverStripe 3.x compatible version of this module, please see the [1 branch, or 0.x release line](https://github.com/arillo/silverstripe-arbitrarysettings/tree/1.0).
+- For a SilverStripe 4.x compatible version of this module, please see the [2 branch](https://github.com/arillo/silverstripe-arbitrarysettings/tree/2.x).
+- For a SilverStripe 3.x compatible version of this module, please see the [1 branch, or 0.x release line](https://github.com/arillo/silverstripe-arbitrarysettings/tree/1.0).
 
 ### Usage
 
