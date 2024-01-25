@@ -1,31 +1,35 @@
 {
-    "name": "arillo/silverstripe-arbitrarysettings",
-    "description": "Arbitrary settings for DataObjects",
-    "type": "silverstripe-vendormodule",
-    "homepage": "https://github.com/arillo/silverstripe-arbitrarysettings",
-    "keywords": ["silverstripe", "elements"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Sebastian Fischer",
-            "email": "sf@arillo.net"
-        }
-    ],
-    "extra": {
-        "installer-name": "arbitrarysettings",
-        "expose": ["client"]
-    },
-    "require": {
-        "silverstripe/framework": "^4",
-        "symbiote/silverstripe-multivaluefield": "^5.0.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "Arillo\\ArbitrarySettings\\": "src/"
-        }
-    },
-    "support": {
-        "issues":
-            "https://github.com/arillo/silverstripe-arbitrarysettings/issues"
+  "name": "arillo/silverstripe-arbitrarysettings",
+  "description": "Arbitrary settings for DataObjects",
+  "type": "silverstripe-vendormodule",
+  "homepage": "https://github.com/arillo/silverstripe-arbitrarysettings",
+  "keywords": [
+    "silverstripe",
+    "elements"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sebastian Fischer",
+      "email": "sf@arillo.net"
     }
+  ],
+  "extra": {
+    "installer-name": "arbitrarysettings",
+    "expose": [
+      "client"
+    ]
+  },
+  "require": {
+    "silverstripe/framework": "^5.0",
+    "symbiote/silverstripe-multivaluefield": "^6.0.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Arillo\\ArbitrarySettings\\": "src/"
+    }
+  },
+  "support": {
+    "issues": "https://github.com/arillo/silverstripe-arbitrarysettings/issues"
+  }
 }
