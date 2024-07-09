@@ -65,26 +65,18 @@ class SettingsExtension extends DataExtension
      */
     public static function normalize_settings($settings)
     {
-        if (!is_array($settings)) {
-            return null;
-        }
-
-        if (array_keys($settings) !== range(0, count($settings) - 1)) {
-            return $settings;
-        }
-
         $newSettings = [];
-        if ($presets = Config::inst()->get(__CLASS__, 'presets')) {
-            foreach ($settings as $key) {
-                if (isset($presets[$key])) {
-                    $newSettings[$key] = $presets[$key];
-                }
-            }
+        $presets = Config::inst()->get(__CLASS__, 'presets') ?? [];
 
-            return $newSettings;
+        foreach ($settings as $key => $value) {
+            if (is_array($value)) {
+                $newSettings[$key] = $value;
+            } elseif (is_string($value) && isset($presets[$value])) {
+                $newSettings[$value] = $presets[$value];
+            }
         }
 
-        return $settings;
+        return $newSettings;
     }
 
     /**
