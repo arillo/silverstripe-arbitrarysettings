@@ -12,7 +12,7 @@
           <% loop $Options %>
             <option value="$Val" <% if $Selected %>selected<% end_if %>>
               $Label
-            </div>
+            </option>
           <% end_loop %>
         </select>
       </div>
