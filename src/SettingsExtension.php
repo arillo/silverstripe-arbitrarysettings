@@ -21,9 +21,8 @@ class SettingsExtension extends Extension
         'ArbitrarySettings' => MultiValueField::class,
     ];
 
-    public function onBeforeWrite()
+    public function onBeforeWrite(): void
     {
-        parent::onBeforeWrite();
         if ($this->owner->ArbitrarySettingsValue) {
             $settings = json_decode($this->owner->ArbitrarySettingsValue, true);
 
