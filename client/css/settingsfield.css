@@ -9,7 +9,9 @@
 }
 
 .arbitrarysettings-option {
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .arbitrarysettings-list select {
@@ -24,16 +26,25 @@
 }
 
 @container (min-width: 450px) {
+  .arbitrarysettings-option {
+    flex-direction: row;
+  }
+
   .arbitrarysettings-option label {
     padding-top: 9px;
     width: 30%;
-    float: left;
     margin-right: 5%;
   }
+
   .arbitrarysettings-list select {
     width: 65%;
-    float: left;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='11'%3E%3Cpath fill='none' stroke='%23000' stroke-width='3' stroke-linecap='square' d='M2.5 2.75L8 8.25l5.5-5.5'/%3E%3C/svg%3E");
+    background-size: 10px 7px;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 40px;
   }
+
   .arbitrarysettings-description {
     margin-left: 35%;
   }

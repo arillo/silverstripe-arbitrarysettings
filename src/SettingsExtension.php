@@ -3,7 +3,7 @@ namespace Arillo\ArbitrarySettings;
 
 use InvalidArgumentException;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
 use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
 
@@ -13,11 +13,11 @@ use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
  * @package arbitrarysettings
  * @author bumbus@arillo <sf@arillo.net>
  */
-class SettingsExtension extends DataExtension
+class SettingsExtension extends Extension
 {
     const DB_FIELD = 'ArbitrarySettings';
 
-    private static $db = [
+    private static array $db = [
         'ArbitrarySettings' => MultiValueField::class,
     ];
 

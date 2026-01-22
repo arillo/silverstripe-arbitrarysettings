@@ -1,8 +1,8 @@
 <?php
 namespace Arillo\ArbitrarySettings;
 
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\ArrayData;
 use Symbiote\MultiValueField\Fields\MultiValueTextField;
 use SilverStripe\View\Requirements;
 use Symbiote\MultiValueField\ORM\FieldType\MultiValueField;
@@ -81,7 +81,7 @@ class SettingsField extends MultiValueTextField
     public function Field($properties = [])
     {
         Requirements::css(
-            'arillo/silverstripe-arbitrarysettings: client/css/settingsfield.css'
+            'arillo/silverstripe-arbitrarysettings:client/css/settingsfield.css'
         );
 
         return $this->renderWith('SettingsField', [
