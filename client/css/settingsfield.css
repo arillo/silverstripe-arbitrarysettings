@@ -18,6 +18,11 @@
   margin: 0;
 }
 
+.arbitrarysettings-list select:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .arbitrarysettings-description {
   color: #566b8d;
   margin-top: 0.5385rem;
