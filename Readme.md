@@ -85,6 +85,18 @@ It is also possible to update the default value for a setting (for sure only if 
 $settingsField->updateDefaultForKey('show_title', 1);
 ```
 
+### Disabled and read-only state
+
+`SettingsField` supports the standard `FormField` disabled and read-only states. In both cases the generated dropdowns are rendered with the `disabled` attribute and the value of the field is not saved on submit:
+
+```php
+$settingsField->setDisabled(true);
+// or
+$settingsField->setReadonly(true);
+```
+
+The field is also transformed accordingly when a whole form is made read-only, e.g. by the CMS when `canEdit()` returns `false`.
+
 ### Settings presets
 
 It is possible to define a list of setting presets like this:

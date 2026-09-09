@@ -89,6 +89,8 @@ class SettingsField extends MultiValueTextField
             'KeyName' => $this->name . '[key][]',
             'ValueName' => $this->name . '[val][]',
             'Settings' => $this->getSettings(),
+            // <select> has no read-only state, so read-only fields render disabled dropdowns too
+            'Disabled' => $this->isDisabled() || $this->isReadonly(),
         ]);
     }
 
